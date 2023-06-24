@@ -3,18 +3,20 @@ import {
   TypeOrmModuleAsyncOptions,
 } from '@nestjs/typeorm';
 import { ConfigService, ConfigModule } from '@nestjs/config';
-import entities from 'src/typeorm';
+import { User } from 'src/users/entities/user.entity';
 
 export default class TypeOrmConfig {
   static getOrmConfig(config: ConfigService): TypeOrmModuleOptions {
     return {
       type: 'mysql',
-      host: config.get('DB_HOST'),
-      port: config.get('DB_PORT'),
-      username: config.get('DB_USERNAME'),
-      password: config.get('DB_PASSWORD'),
-      database: config.get('DB_DATABASE'),
-      entities: entities,
+      host: config.get('DB_HOST') || 'localhost',
+      port: config.get('DB_PORT') || 3306,
+      username: config.get('DB_USERNAME') || 'root',
+      password: config.get('DB_PASSWORD') || '',
+      database: config.get('DB_DATABASE') || 'petsmart',
+      entities: [
+        User
+      ],
       synchronize: true,
     };
   }

@@ -1,9 +1,7 @@
+import { STATUS } from 'src/dto/StatusTypes';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-export enum STATUS{
-    ACTIVE='active',
-    INACTIVE='inactive'
-}
+
 
 @Entity()
 export class User {
