@@ -1,8 +1,6 @@
 import { STATUS } from 'src/dto/StatusTypes';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-
-
+import {Exclude} from 'class-transformer';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn({ type: 'bigint' })
@@ -14,6 +12,7 @@ export class User {
   @Column({ nullable: false, unique: true })
   email: string;
 
+  @Exclude()
   @Column({ nullable: false })
   password: string;
 
@@ -22,9 +21,9 @@ export class User {
 
   @Column({ nullable: false })
   role: string;
-  
-  @Column({type:'enum', enum:STATUS,default:STATUS.ACTIVE})
-  status:STATUS
+
+  @Column({ type: 'enum', enum: STATUS, default: STATUS.ACTIVE })
+  status: STATUS;
 
   @Column({ nullable: false, type: 'datetime', name: 'create_at' })
   createAt: Date;

@@ -1,7 +1,4 @@
-import {
-  TypeOrmModuleOptions,
-  TypeOrmModuleAsyncOptions,
-} from '@nestjs/typeorm';
+import { TypeOrmModuleOptions, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { User } from 'src/users/entities/user.entity';
 
@@ -14,9 +11,7 @@ export default class TypeOrmConfig {
       username: config.get('DB_USERNAME') || 'root',
       password: config.get('DB_PASSWORD') || '',
       database: config.get('DB_DATABASE') || 'petsmart',
-      entities: [
-        User
-      ],
+      entities: [User],
       synchronize: true,
     };
   }
@@ -24,7 +19,6 @@ export default class TypeOrmConfig {
 
 export const typeOrmConfigAsync: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
-  useFactory: async (config: ConfigService): Promise<TypeOrmModuleOptions> =>
-    TypeOrmConfig.getOrmConfig(config),
+  useFactory: async (config: ConfigService): Promise<TypeOrmModuleOptions> => TypeOrmConfig.getOrmConfig(config),
   inject: [ConfigService],
 };
