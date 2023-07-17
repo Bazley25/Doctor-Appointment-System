@@ -27,25 +27,21 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await this.userRepository.findOneBy({ email });
-    if (!user) {
-      throw new NotFoundException(`User not found`);
-    }
-    return user;
+    return await this.userRepository.findOneBy({ email });
   }
 
   async create(createUserDto: CreateUserDto) {
     const password = encodePassword(createUserDto.password);
     const imgUrl = `https://robohash.org/${new Date().getTime()}.png`;
-    const createAt = new Date().toISOString().slice(0, 19).replace("T", "");
-    const updateAt = new Date().toISOString().slice(0, 19).replace("T", "");
+    const create_at = new Date().toISOString().slice(0, 19).replace("T", " ");
+    const update_at = new Date().toISOString().slice(0, 19).replace("T", " ");
 
     const user = await this.userRepository.create({
       ...createUserDto,
       password,
       imgUrl,
-      createAt,
-      updateAt,
+      create_at,
+      update_at,
     });
 
     return await this.userRepository.save(user);

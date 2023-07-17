@@ -15,8 +15,10 @@ import {
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/CreateUser.dto";
 import { UpdateUserDto } from "./dto/UpdateUser.dto";
-
-@Controller("users")
+import { Serialize, SerializeInterceptor } from "src/interceptors/serialize.interceptor";
+import { UserDto } from "./dto/User.dto";
+@Serialize(UserDto)
+@Controller("user")
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
@@ -25,7 +27,7 @@ export class UsersController {
     return await this.usersService.findAll();
   }
 
-  @UseInterceptors(ClassSerializerInterceptor)
+  // @UseInterceptors(new SerializeInterceptor(UserDto))
   @Get("/:id")
   async getUser(@Param("id") id: string) {
     const user= await this.usersService.findOne(parseInt(id));
@@ -44,7 +46,6 @@ export class UsersController {
     }
 
     const user = await this.usersService.create(createUserDto);
-    delete user.password;
     return user;
   }
   

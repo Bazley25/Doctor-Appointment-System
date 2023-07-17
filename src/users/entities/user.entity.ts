@@ -1,6 +1,7 @@
 import { STATUS } from 'src/dto/StatusTypes';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import {Exclude} from 'class-transformer';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { UserRoles } from '../dto/UserRoles';
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn({ type: 'bigint' })
@@ -12,22 +13,21 @@ export class User {
   @Column({ nullable: false, unique: true })
   email: string;
 
-  @Exclude()
   @Column({ nullable: false })
   password: string;
 
   @Column({ nullable: true, name: 'img_url' })
   imgUrl: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, default:UserRoles.USER })
   role: string;
 
   @Column({ type: 'enum', enum: STATUS, default: STATUS.ACTIVE })
   status: STATUS;
 
-  @Column({ nullable: false, type: 'datetime', name: 'create_at' })
-  createAt: Date;
+  @CreateDateColumn({type:'timestamp'})
+  create_at: Date;
 
-  @Column({ nullable: false, type: 'datetime', name: 'update_at' })
-  updateAt: Date;
+  @UpdateDateColumn({type:'timestamp'})
+  update_at: Date;
 }
